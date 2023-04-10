@@ -16,7 +16,7 @@ Gatewayd : Gateway.c rfm69.cpp rfm69.h rfm69registers.h networkconfig.h
 	g++ Gateway.c rfm69.cpp -o Gatewayd -lwiringPi -lmosquitto -DRASPBERRY -DDAEMON
 
 Gateway : Gateway.c rfm69.cpp rfm69.h rfm69registers.h networkconfig.h 
-	g++ Gateway.c rfm69.cpp -o Gateway -lwiringPi -lmosquitto -DRASPBERRY
+	g++ Gateway.c rfm69.cpp -o Gateway -lwiringPi -lmosquitto -DRASPBERRY -DDEBUG
 
 SenderReceiver : SenderReceiver.c rfm69.cpp rfm69.h rfm69registers.h networkconfig.h 
 	g++ SenderReceiver.c rfm69.cpp -o SenderReceiver -lwiringPi -DRASPBERRY

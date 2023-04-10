@@ -36,8 +36,10 @@
 
 #define RF69_MAX_DATA_LEN     61 // to take advantage of the built in AES/CRC we want to limit the frame size to the internal FIFO size (66 bytes - 3 bytes overhead - 2 bytes crc)
 
-#define RF69_SPI_CS           0 // SS is the SPI slave select pin, for instance D10 on atmega328
-#define RF69_IRQ_PIN          6
+#define RF69_SPI_CS           24  // SS is the SPI slave select pin, for instance D10 on atmega328
+// KJS
+// #define RF69_IRQ_PIN          6
+#define RF69_IRQ_PIN          18
 #define RF69_IRQ_NUM          0
  
 #define SPI_SPEED 500000
