@@ -133,9 +133,10 @@ bool RFM69::initialize(uint8_t freqBand, uint8_t nodeID, uint8_t networkID)
   if (millis()-start >= timeout)
     return false;
 #ifdef RASPBERRY
-  // Attach the Interupt
-  wiringPiSetup();
-  wiringPiISR(6, INT_EDGE_RISING, RFM69::isr0);
+  // Attach the Interupt to a physical pin
+  wiringPiSetupPhys();
+  //wiringPiISR(6, INT_EDGE_RISING, RFM69::isr0); // KJS
+  wiringPiISR(_interruptPin, INT_EDGE_RISING, RFM69::isr0);
 #else
   attachInterrupt(_interruptNum, RFM69::isr0, RISING);
 #endif
@@ -411,6 +412,7 @@ void RFM69::sendFrame(uint8_t toAddress, const void* buffer, uint8_t bufferSize,
   setMode(RF69_MODE_TX);
   uint32_t txStart = millis();
   while (digitalRead(_interruptPin) == 0 && millis() - txStart < RF69_TX_LIMIT_MS); // wait for DIO0 to turn HIGH signalling transmission finish
+
   //while (readReg(REG_IRQFLAGS2) & RF_IRQFLAGS2_PACKETSENT == 0x00); // wait for ModeReady
   setMode(RF69_MODE_STANDBY);
 }
@@ -422,7 +424,6 @@ void RFM69::interruptHandler() {
   unsigned char thedata[67];
   char i;
   for(i = 0; i < 67; i++) thedata[i] = 0;
-//  printf("interruptHandler %d\n", intCount);
 #endif
  
  //pinMode(4, OUTPUT);
