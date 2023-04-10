@@ -3,7 +3,7 @@ The Gateway code is a 1:1 replacement from Eric Tsai one to be run dirrectly on 
 
 Connect the RFM69 to the Raspberry PI
 
-Using SPI part of Raspberry expantion port, with the IRQ connected to the pin 22 (GPIO_25)
+Using SPI part of Raspberry expansion port, with the IRQ connected to the pin 22 (GPIO_25)
 
 ```
 3.3V  17
@@ -13,6 +13,11 @@ MISO  21
 MOSI  19
 NSS   24
 DID0  22
+```
+
+Note that DID0 is no longer hard-coded. Uses value in `rfm69.h`:
+```
+#define RF69_IRQ_PIN          18
 ```
 
 The layout of the connection header is described at http://www.megaleecher.net/Raspberry_Pi_GPIO_Pinout_Helper
