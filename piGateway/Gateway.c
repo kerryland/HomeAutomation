@@ -9,9 +9,9 @@ File: Gateway.c
 This sketch receives RFM wireless data and forwards it to Mosquitto relay
 
 The messages are published with the format RFM/<network number>/<node_id>/up/<sensor_id><var>
-It also subscripe to Mosquitto Topics starting with RFM/<network_number>/<node_id>/down/<sensor_id>
 
-The message is parsed and put back to the same payload structure as the one received from the nodes
+It is also, theoretically, possible to publist to Mosquitto Topic RFM/<network_number>/<node_id>/down/<sensor_id>
+which will parse the message and deliver it to the requested network node.
 
 
 Adjust network configuration to your setup in the file networkconfig.h
@@ -212,10 +212,10 @@ int main(int argc, char* argv[]) {
 	}
 	initRfm(rfm69);
 
-	// Mosquitto subscription ---------
+	// Mosquitto subscription for delivery *to* RFM nodes  ---------
 	char subscriptionMask[128];
 	sprintf(subscriptionMask, "%s/%03d/+/down/+", MQTT_ROOT, theConfig.networkId);
-	LOG("Subscribe to Mosquitto topic...: %s\n", subscriptionMask);
+	LOG("Subscribing to Mosquitto 'down' topic...: %s\n", subscriptionMask);
 	mosquitto_subscribe(m, NULL, subscriptionMask, 0);
 	
 	LOG("setup complete\n");
