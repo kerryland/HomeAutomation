@@ -19,24 +19,6 @@ Adjust network configuration to your setup in the file networkconfig.h
 
 //general --------------------------------
 #define SERIAL_BAUD   115200
-#ifdef DAEMON
-#define LOG(...) do { syslog(LOG_INFO, __VA_ARGS__); } while (0)
-#define LOG_E(...) do { syslog(LOG_ERR, __VA_ARGS__); } while (0)
-#else
-#ifdef DEBUG
-#define DEBUG1(expression)  fprintf(stderr, expression)
-#define DEBUG2(expression, arg)  fprintf(stderr, expression, arg)
-#define DEBUGLN1(expression)  
-#define LOG(...) do { printf(__VA_ARGS__); } while (0)
-#define LOG_E(...) do { printf(__VA_ARGS__); } while (0)
-#else
-#define DEBUG1(expression)
-#define DEBUG2(expression, arg)
-#define DEBUGLN1(expression)
-#define LOG(...)
-#define LOG_E(...)
-#endif
-#endif
 
 //RFM69  ----------------------------------
 #include "rfm69.h"
@@ -133,6 +115,25 @@ static void MQTTSendInt(struct mosquitto * _client, int node, int sensor, int va
 static void MQTTSendULong(struct mosquitto* _client, int node, int sensor, int var, unsigned long val);
 static void MQTTSendFloat(struct mosquitto* _client, int node, int sensor, int var, float val);
 static void MQTTSendChar(struct mosquitto* _client, int node, int sensor, char* val);
+
+#ifdef DAEMON
+#define LOG(...) do { syslog(LOG_INFO, __VA_ARGS__); } while (0)
+#define LOG_E(...) do { syslog(LOG_ERR, __VA_ARGS__); } while (0)
+#else
+#ifdef DEBUG
+#define DEBUG1(expression)  fprintf(stderr, expression)
+#define DEBUG2(expression, arg)  fprintf(stderr, expression, arg)
+#define DEBUGLN1(expression)  
+#define LOG(...) do { printf(__VA_ARGS__); } while (0)
+#define LOG_E(...) do { printf(__VA_ARGS__); } while (0)
+#else
+#define DEBUG1(expression)
+#define DEBUG2(expression, arg)
+#define DEBUGLN1(expression)
+#define LOG(...) 
+#define LOG_E(...)
+#endif
+#endif
 
 static void uso(void) {
 	fprintf(stderr, "Use:\n Simply use it without args :D\n");

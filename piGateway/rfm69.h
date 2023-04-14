@@ -162,6 +162,8 @@ class RFM69 {
     virtual void setHighPowerRegs(bool onOff);
     virtual void select();
     virtual void unselect();
+
+    void reset(); // KJS
 };
 
 #endif
